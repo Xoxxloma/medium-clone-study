@@ -1,39 +1,25 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/currentUser";
 
 const TopBar = () => {
   const [currentUserState] = useContext(CurrentUserContext);
+  const userImage =
+    (currentUserState.isLoggedIn && currentUserState.currentUser.image) ||
+    "https://static.productionready.io/images/smiley-cyrus.jpg";
 
   return (
-    <nav
-      className="navbar navbar-dark navbar-expand-lg font-weight-bold"
-      style={{ backgroundColor: "#9400D3" }}
-    >
+    <nav className="navbar navbar-light navbar-expand-lg ">
       <div className="container">
-        <NavLink to="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand">
           Medium
-        </NavLink>
-        <ul className="navbar-nav my-2">
+        </Link>
+        <ul className="nav navbar-nav ">
           <li className="nav-item">
-            <NavLink exact to="/" className="nav-link">
+            <NavLink to="/" className="nav-link" exact>
               Home
             </NavLink>
           </li>
-          {currentUserState.isLoggedIn === false && (
-            <>
-              <li className="nav-item">
-                <NavLink to="/login" className="nav-link">
-                  Sign in
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/register" className="nav-link ">
-                  Sign up
-                </NavLink>
-              </li>
-            </>
-          )}
           {currentUserState.isLoggedIn && (
             <>
               <li className="nav-item">
@@ -51,14 +37,24 @@ const TopBar = () => {
               <li className="nav-item">
                 <NavLink
                   to={`/profiles/${currentUserState.currentUser.username}`}
-                  className="nav-link "
+                  className="nav-link"
                 >
-                  <img
-                    className="user-pic"
-                    src={currentUserState.currentUser.image}
-                    alt=""
-                  />
+                  <img className="user-pic" src={userImage} alt="" />
                   &nbsp; {currentUserState.currentUser.username}
+                </NavLink>
+              </li>
+            </>
+          )}
+          {currentUserState.isLoggedIn === false && (
+            <>
+              <li className="nav-item">
+                <NavLink to="/login" className="nav-link">
+                  Sign in
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/register" className="nav-link">
+                  Sign up
                 </NavLink>
               </li>
             </>
